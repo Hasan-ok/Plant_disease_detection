@@ -238,7 +238,7 @@ function closeDeleteModal() {
 function confirmDelete() {
     if (!deleteHistoryId) return;
     
-    fetch(`/detection/history/${deleteHistoryId}`, {
+    fetch(`/detect/history/${deleteHistoryId}`, {
         method: 'DELETE',
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

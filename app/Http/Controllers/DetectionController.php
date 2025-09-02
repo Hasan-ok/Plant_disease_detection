@@ -23,9 +23,7 @@ class DetectionController extends Controller
     ]);
 
     $image = $request->file('image');
-    $imagePath = $image->store('uploads', 'public'); // Store the image and get path
-
-    // Define your treatments dictionary here or import it from config
+    $imagePath = $image->store('uploads', 'public');
     $disease_treatments = [
         "Apple___Apple_scab" => "Use fungicides such as captan or mancozeb during the early growing season. Remove fallen leaves and prune infected branches.",
         "Apple___Black_rot" => "Apply fungicides like thiophanate-methyl or captan. Remove mummified fruit and prune cankers.",
@@ -59,31 +57,21 @@ class DetectionController extends Controller
     ];
 
     try {
-        // Check if AI service is available
         $health = Http::timeout(5)->get('http://127.0.0.1:8001/');
         if (!$health->successful()) {
             return redirect()->route('detection.result')->withErrors(['msg' => 'AI service is unavailable.']);
         }
-
-        // Send image to AI service
         $response = Http::timeout(60)
             ->attach('file', file_get_contents($image->getRealPath()), $image->getClientOriginalName())
             ->post('http://127.0.0.1:8001/detect');
 
         if ($response->successful()) {
             $result = $response->json();
-
-            // Normalize predicted class name from AI to avoid mismatch (trim spaces)
             $predictedClass = trim($result['predicted_class'] ?? 'Unknown');
-
-            // Lookup treatment locally using normalized key
             $treatment = $disease_treatments[$predictedClass] ?? 'No treatment information available';
 
             return redirect()->route('detection.result')->with([
-                'disease' => $predictedClass,
-                'confidence' => $result['confidence'] ?? null,
-                'treatment' => $treatment,
-                'uploaded_image_path' => $imagePath
+                'disease' => $predictedClass,'confidence' => $result['confidence'] ?? null, 'treatment' => $treatment, 'uploaded_image_path' => $imagePath
             ]);
         } else {
             return redirect()->route('detection.result')->withErrors(['msg' => 'Analysis failed.']);
@@ -139,9 +127,8 @@ class DetectionController extends Controller
     {
         $disease = session('disease');
         $confidence = session('confidence');
-        $imagePath = session('uploaded_image_path'); // You'll need to store this in session during upload
-        
-        // Save to user's history if logged in and we have results
+        $imagePath = session('uploaded_image_path');
+
         if (Auth::check() && $disease && $confidence) {
             $this->saveToHistory($disease, $confidence, $imagePath);
         }

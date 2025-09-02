@@ -213,7 +213,6 @@ function closeLoginPrompt() {
     document.getElementById('loginModal').classList.remove('flex');
 }
 
-// Close modal when clicking outside
 document.getElementById('loginModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeLoginPrompt();

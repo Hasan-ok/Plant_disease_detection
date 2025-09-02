@@ -15,6 +15,8 @@ use App\Http\Controllers\TreatmentUserController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -33,9 +35,6 @@ Route::get('/login', function (){
     return view('login');
 })->name('login');
 
-
-
-
 require __DIR__.'/auth.php';
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -48,12 +47,11 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
 Route::middleware(['web'])->group(function () {
-    // Public detection routes
+
     Route::get('/detect', [DetectionController::class, 'index'])->name('detection.upload');
     Route::post('/detect', [DetectionController::class, 'detectDisease'])->name('detection.detect');
     Route::get('/result', [DetectionController::class, 'showResult'])->name('detection.result');
-    
-    // Authenticated user routes
+
     Route::middleware(['auth'])->group(function () {
         Route::get('/detect/history', [DetectionController::class, 'history'])->name('detection.history');
         Route::delete('/detect/history/{id}', [DetectionController::class, 'deleteHistory'])->name('detection.history.delete');
@@ -90,12 +88,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/experts/{expert}/edit', [AdminController::class, 'editExpert'])->name('experts.edit');
     Route::put('/experts/{expert}', [AdminController::class, 'updateExpert'])->name('experts.update');
     Route::delete('/experts/{expert}', [AdminController::class, 'destroyExpert'])->name('experts.destroy');
+
+    Route::get('/messages', [AdminController::class, 'messages'])->name('messages.index');
+
+    Route::resource('users', UserController::class);
+
 });
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class);
 });
-
 
 Route::get('/products', [ProductUserController::class, 'index'])->name('products.index');
 
@@ -120,6 +122,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
-    Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment-cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });

@@ -19,7 +19,7 @@ class ExpertUserController extends Controller
             $experts->where('specialty', 'like', '%' . $request->specialty . '%');
         }
 
-        $experts = $experts->paginate(9)->withQueryString(); // Keep filters during pagination
+        $experts = $experts->paginate(9)->withQueryString();
 
         return view('experts.index', compact('experts'));
     }

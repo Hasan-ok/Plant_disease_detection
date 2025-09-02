@@ -12,7 +12,7 @@
                 @foreach($treatments as $treatment)
                     <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
                         @if($treatment->image)
-                            <img src="{{ asset('storage/' . $treatment->image) }}" alt="Treatment Image" class="w-full h-40 object-cover rounded mb-4">
+                            <img src="{{ asset($treatment->image) }}" alt="Treatment Image" class="w-full h-40 object-cover rounded mb-4">
                         @endif
                         <h3 class="text-xl font-semibold text-green-800">{{ $treatment->disease }}</h3>
                         <p class="text-sm text-gray-600 mt-2"><strong>Symptoms:</strong> {{ Str::limit($treatment->symptoms, 100) }}</p>

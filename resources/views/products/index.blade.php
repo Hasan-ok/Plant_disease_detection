@@ -17,14 +17,17 @@
                 @endif
             </a>
         </div>
-
+        <form action="{{ route('products.index') }}" method="GET" class="mb-4 flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search products..." class="p-2 border rounded w-full">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Search</button>
+        </form>
 
         @if($products->count())
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 @foreach($products as $product)
                     <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
                         @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" class="w-full h-40 object-cover rounded mb-4">
+                            <img src="{{ asset($product->image) }}" alt="Product Image" class="w-full h-40 object-cover rounded mb-4">
                         @endif
                         <h3 class="text-xl font-semibold text-green-800">{{ $product->name }}</h3>
                         <p class="text-sm text-gray-600 mt-2"><strong>Price:</strong> ${{ $product->price }}</p>

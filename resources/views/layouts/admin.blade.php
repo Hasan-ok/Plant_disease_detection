@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .sidebar {
+            position: fixed;
             min-height: 100vh;
             background: #2c3e50;
         }
@@ -59,6 +60,20 @@
                                href="{{ route('admin.products.index') }}">
                                 <i class="fas fa-user-md me-2"></i>
                                 Manage Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}" 
+                               href="{{ route('admin.users.index') }}">
+                                <i class="fas fa-user-md me-2"></i>
+                                Manage Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.messages*') ? 'active' : '' }}" 
+                               href="{{ route('admin.messages.index') }}">
+                                <i class="fas fa-user-md me-2"></i>
+                                View Contact Messages
                             </a>
                         </li>
                         <li class="nav-item">

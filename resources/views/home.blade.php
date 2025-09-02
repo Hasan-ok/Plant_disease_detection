@@ -12,15 +12,6 @@
             <p class="text-lg text-gray-700 mb-8">
                 Diagnose plant diseases instantly with AI. Get treatments, consult experts, and join a growing farming community.
             </p>
-
-            <!-- <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
-                <a href="{{ route('detection.upload') }}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold shadow-md transition">
-                    🩺 Detect Disease
-                </a>
-                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold shadow-md transition">
-                    👩‍⚕️ Contact an Expert
-                </a>
-            </div> -->
         </div>
     </div>
 </section>
@@ -52,9 +43,9 @@
             <!-- Feature 3: Products -->
             <a href="{{ route('products.index') }}" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:bg-green-50 transition transform hover:-translate-y-1">
                 <div class="text-yellow-500 text-5xl mb-4">🌱</div>
-                <h3 class="text-xl font-semibold text-green-800 mb-6">View Products</h3>
+                <h3 class="text-xl font-semibold text-green-800 mb-6">Buy Products</h3>
                 <p class="text-gray-600">
-                    View available pesticides, vitamins, and medications for your plants.
+                    View available pesticides, vitamins, medications for your plants and buy them.
                 </p>
             </a>
 
@@ -114,6 +105,7 @@
 
 <!-- contact us section -->
 <section id="contact">
+    <h2 class="text-4xl font-bold text-green-800 mb-6 text-center">Contact Us</h2>
     <form action="{{ route('contact.store') }}" method="POST" class="space-y-6 max-w-2xl mx-auto text-left">
     @csrf
 

@@ -45,10 +45,8 @@
         </table>
 
         <div class="flex justify-between items-center mt-6 ml-5">
-            <form method="POST" action="{{ route('orders.store') }}">
-                @csrf
-                <button type="submit" class="btn btn-primary">Checkout</button>
-            </form>
+            <a href="{{ route('payment.checkout') }}" class="btn btn-primary">Checkout</a>
+
 
             <div class="text-right font-bold text-lg">
                 Total: ${{ number_format($totalPrice, 2) }}

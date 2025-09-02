@@ -10,7 +10,7 @@
     {{-- Page Title --}}
     <h2 class="text-4xl font-bold text-center text-green-800 mb-12">Meet Our Plant Disease Experts</h2>
 
-    <form method="GET" action="{{ route('experts.index') }}" class="mb-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+    <form method="GET" action="{{ route('experts.index') }}" class="mb-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
         {{-- Name Filter --}}
         <div>
             <input type="text" name="name" placeholder="Search by name"
@@ -32,7 +32,7 @@
                 Filter
             </button>
         </div>
-            <a href="{{ route('experts.index') }}" class="block text-center text-sm text-gray-500 hover:underline mt-2">
+            <a href="{{ route('experts.index') }}" class="block text-center text-sm text-gray-700 hover:underline mt-2">
             Reset Filters
             </a>
 
@@ -40,7 +40,7 @@
 
 
     {{-- Expert Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         @forelse ($experts as $expert)
             <div class="bg-lime-100 border border-lime-300 shadow-md rounded-xl p-6 transition hover:shadow-lg">
                 <h5 class="text-xl font-bold text-lime-800 mb-2">{{ $expert->name }}</h5>
@@ -185,6 +185,7 @@
         @if(session('success'))
             <div class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 

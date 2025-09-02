@@ -43,5 +43,6 @@
     </div>
 
     <button class="btn btn-primary">Update Product</button>
+    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary me-2">Cancel</a>
 </form>
 @endsection

@@ -22,5 +22,8 @@
 
         <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Update</button>
     </form>
+    <br>
+    <a href="{{ route('experts.index') }}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition">
+            Back to Expert consultation</a>
 </div>
 @endsection

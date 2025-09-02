@@ -30,7 +30,7 @@
         <label>Image</label>
         <input type="file" name="image" class="form-control">
     </div>
-
+    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary me-2">Cancel</a>
     <button class="btn btn-primary">Save Product</button>
 </form>
 @endsection

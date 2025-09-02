@@ -5,6 +5,13 @@ use App\Models\Expert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use App\Models\ContactMessage;
+
 
 class AdminController extends Controller
 {
@@ -18,8 +25,39 @@ class AdminController extends Controller
         $totalExperts = Expert::count();
         $activeExperts = Expert::active()->count();
         $recentExperts = Expert::latest()->take(5)->get();
+        $totalOrders = Order::count();
+        $totalRevenue = Order::where('status', 'completed')->sum('total');
+        $totalProducts = Product::count();
 
-        return view('admin.dashboard', compact('totalExperts', 'activeExperts', 'recentExperts'));
+        $userCounts = [
+            'users' => User::where('role', 'user')->count(),
+            'gardeners' => User::where('role', 'gardener')->count(),
+            'experts' => User::where('role', 'expert')->count(),
+        ];
+
+        $topProducts = DB::table('order_items')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->select('products.name', DB::raw('SUM(order_items.quantity) as total_quantity'))
+            ->groupBy('products.name')
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get();
+
+        $weeklyOrders = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as count'))
+            ->whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+        
+        $userRoleCounts = User::select('role', \DB::raw('count(*) as total'))
+            ->groupBy('role')
+            ->pluck('total', 'role');
+        $userRoleCounts['expert'] = $totalExperts;
+
+        return view('admin.dashboard', compact(
+            'totalExperts', 'activeExperts', 'recentExperts',
+            'totalOrders', 'totalRevenue', 'totalProducts',
+            'userCounts', 'topProducts', 'weeklyOrders', 'userRoleCounts'));
     }
 
     public function experts(Request $request)
@@ -110,5 +148,11 @@ class AdminController extends Controller
 
         return redirect()->route('admin.experts')
                         ->with('success', 'Expert deleted successfully!');
+    }
+
+    public function messages()
+    {
+        $messages = ContactMessage::latest()->paginate(10);
+        return view('admin.messages.index', compact('messages'));
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow-lg">
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-3xl font-bold text-green-700">👤 Your Profile</h2>
         <div class="space-x-2">
@@ -33,6 +33,11 @@
         <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>View History
+    </a>
+    <br><br>
+    <a href="{{ route('orders.index') }}" 
+        class="inline-block bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition">
+        My Orders
     </a>
 </div>
 @endsection

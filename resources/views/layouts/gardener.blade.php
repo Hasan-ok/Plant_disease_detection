@@ -15,6 +15,7 @@
         }
 
         .sidebar {
+            position: fixed;
             min-height: 100vh;
             background: #356859;
             color: #fff;
